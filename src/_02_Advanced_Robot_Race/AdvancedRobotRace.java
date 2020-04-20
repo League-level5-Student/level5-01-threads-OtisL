@@ -17,39 +17,37 @@ public class AdvancedRobotRace {
 			robots[i] = new Robot();
 			robots[i].moveTo(i * 90 + 50, 900);
 			robots[i].setSpeed(10);
+			robots[i].setAngle(1);
 		}
 		// 5. use another for loop to iterate through the array and make each robot move
 		// a random amount less than 50.
 
-		Random randy = new Random();
-		Thread r1 = new Thread(() -> robots[0].move(randy.nextInt(50)));
-		Thread r2 = new Thread(() -> robots[1].move(randy.nextInt(50)));
-		Thread r3 = new Thread(() -> robots[2].move(randy.nextInt(50)));
-		Thread r4 = new Thread(() -> robots[3].move(randy.nextInt(50)));
-		Thread r5 = new Thread(() -> robots[4].move(randy.nextInt(50)));
-		boolean finished = false;
-		int winner = -1;
-		while (!finished) {
-			r1.start();
-			r2.start();
-			r3.start();
-			r4.start();
-			r5.start();
-			for (int i = 0; i < robots.length; i++) {
-				if(robots[i].getY()<0) {
-					finished = true;
-					winner=i;
-				}
-			}
-		}
-		robots[winner].setAngle(180);
-		robots[winner].move(900);
-		robots[winner].turn(540);
-		robots[winner].move(450);
-		robots[winner].turn(1000);
-		robots[winner].setAngle(0);
+		
+		Thread r1 = new Thread(() -> move(robots[0]));
+		Thread r2 = new Thread(() -> move(robots[1]));
+		Thread r3 = new Thread(() -> move(robots[2]));
+		Thread r4 = new Thread(() -> move(robots[3]));
+		Thread r5 = new Thread(() -> move(robots[4]));
+		r1.start();
+		r2.start();
+		r3.start();
+		r4.start();
+		r5.start();
 	}
 	static void move(Robot r) {
-		
+		Random randy = new Random();
+		boolean finished = false;
+		while (!finished) {
+			r.move(randy.nextInt(100));
+			if(r.getY()<0) {
+				finished=true;
+			}
+		}
+		r.setAngle(181);
+		r.move(900);
+		r.turn(540);
+		r.move(450);
+		r.turn(1000);
+		r.setAngle(0);
 	}
 }
